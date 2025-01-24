@@ -3,6 +3,7 @@
         dashboardUrl: 'https://your-dashboard-url.com/feedback',
         primaryColor: '#2ecc71',
         secondaryColor: '#3498db',
+        tertiaryColor: '#e74c3c',
         overlayOpacity: 0.8
     };
 
@@ -41,16 +42,23 @@
             <p style="color:#666; margin-bottom: 30px;">
                 Spin the wheel and let us know your thoughts!
             </p>
-            <div id="wheel-container" style="position: relative; width: 200px; height: 200px; margin: 0 auto;">
+            <div id="wheel-container" style="position: relative; width: 300px; height: 300px; margin: 0 auto;">
                 <div id="wheel" style="
                     position: absolute;
                     top: 0;
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background-image: conic-gradient(${CONFIG.primaryColor} 0%, ${CONFIG.secondaryColor} 25%, ${CONFIG.primaryColor} 50%, ${CONFIG.secondaryColor} 75%, ${CONFIG.primaryColor} 100%);
+                    background-image: conic-gradient(
+                        ${CONFIG.primaryColor} 0%,
+                        ${CONFIG.primaryColor} 33.33%,
+                        ${CONFIG.secondaryColor} 33.33%,
+                        ${CONFIG.secondaryColor} 66.66%,
+                        ${CONFIG.tertiaryColor} 66.66%,
+                        ${CONFIG.tertiaryColor} 100%
+                    );
                     border-radius: 50%;
-                    animation: spin 3s ease-out;
+                    animation: spin 5s linear;
                     animation-fill-mode: forwards;
                 ">
                     <div style="
@@ -68,6 +76,7 @@
                         font-size: 24px;
                         font-weight: bold;
                         color: ${CONFIG.primaryColor};
+                        cursor: pointer;
                     ">Spin</div>
                 </div>
             </div>
@@ -122,7 +131,7 @@
 
             // Spin the wheel
             const wheel = document.getElementById('wheel');
-            wheel.style.animation = 'spin 3s ease-out';
+            wheel.style.animation = 'spin 5s linear';
             setTimeout(() => {
                 wheel.style.animation = '';
                 const result = Math.floor(Math.random() * 100);
@@ -131,7 +140,7 @@
                 } else {
                     document.getElementById('close-btn').click();
                 }
-            }, 3000);
+            }, 5000);
         }
 
         function hideWidget() {
