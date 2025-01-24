@@ -27,7 +27,7 @@
         modal.style.cssText = `
             background: white;
             border-radius: 12px;
-            width: 400px;
+            width: 420px;
             padding: 40px;
             text-align: center;
             box-shadow: 0 15px 30px rgba(0,0,0,0.2);
@@ -37,19 +37,42 @@
         `;
 
         modal.innerHTML = `
-            <div style="margin-bottom: 30px;">
-                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="${CONFIG.primaryColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                </svg>
-                <h2 style="color:${CONFIG.primaryColor}; margin-top: 20px;">Feedback Appreciated</h2>
-            </div>
+            <h2 style="color:${CONFIG.primaryColor}; margin-bottom: 20px;">Spin the Wheel 🎡</h2>
             <p style="color:#666; margin-bottom: 30px;">
-                We're constantly improving our platform. Your feedback helps us do that!
+                Spin the wheel and let us know your thoughts!
             </p>
-            <div style="display: flex; justify-content: space-between;">
+            <div id="wheel-container" style="position: relative; width: 200px; height: 200px; margin: 0 auto;">
+                <div id="wheel" style="
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-image: conic-gradient(${CONFIG.primaryColor} 0%, ${CONFIG.secondaryColor} 25%, ${CONFIG.primaryColor} 50%, ${CONFIG.secondaryColor} 75%, ${CONFIG.primaryColor} 100%);
+                    border-radius: 50%;
+                    animation: spin 3s ease-out;
+                    animation-fill-mode: forwards;
+                ">
+                    <div style="
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 80%;
+                        height: 80%;
+                        background-color: white;
+                        border-radius: 50%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: ${CONFIG.primaryColor};
+                    ">Spin</div>
+                </div>
+            </div>
+            <div style="margin-top: 40px;">
                 <button id="feedback-btn" style="
-                    flex: 1;
-                    margin-right: 15px;
                     background-color: ${CONFIG.primaryColor};
                     color: white;
                     border: none;
@@ -59,9 +82,9 @@
                     transition: background-color 0.3s;
                     font-size: 14px;
                     font-weight: 600;
-                ">Share Feedback</button>
+                    margin-right: 15px;
+                ">Give Feedback</button>
                 <button id="close-btn" style="
-                    flex: 1;
                     background-color: #f0f0f0;
                     color: #333;
                     border: none;
@@ -96,6 +119,19 @@
                 modal.style.transform = 'scale(1)';
                 modal.style.opacity = '1';
             }, 50);
+
+            // Spin the wheel
+            const wheel = document.getElementById('wheel');
+            wheel.style.animation = 'spin 3s ease-out';
+            setTimeout(() => {
+                wheel.style.animation = '';
+                const result = Math.floor(Math.random() * 100);
+                if (result < 80) {
+                    document.getElementById('feedback-btn').click();
+                } else {
+                    document.getElementById('close-btn').click();
+                }
+            }, 3000);
         }
 
         function hideWidget() {
