@@ -1,6 +1,6 @@
 (function() {
     const CONFIG = {
-        dashboardUrl: 'https://your-dashboard-url.com/feedback',
+        dashboardUrl: 'https://sentimental-model-a4vz.onrender.com',
         sectors: [
             { option: 'Give Feedback', color: '#2ecc71' }, // Green
             { option: 'Maybe Later', color: '#3498db' },   // Blue
