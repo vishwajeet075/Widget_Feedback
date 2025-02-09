@@ -1,106 +1,44 @@
-(function() {
-    const CONFIG = {
-        dashboardUrl: 'https://sentimental-model-a4vz.onrender.com',
-        sectors: [
-            { option: 'Give Feedback', color: '#2ecc71' }, // Green
-            { option: 'Maybe Later', color: '#3498db' },   // Blue
-            { option: 'No Thanks', color: '#e74c3c' }     // Red
-        ],
-        overlayOpacity: 0.85
-    };
+// Fetch deployment version from meta tag
+const deploymentVersion = document.querySelector('meta[name="deployment-version"]')?.content || "unknown";
 
-    function getDeploymentVersion() {
-        const metaTag = document.querySelector('meta[name="deployment-version"]');
-        return metaTag ? metaTag.content : 'unknown';
-    }
+// Backend API URL
+const backendUrl = "https://api.greenovate.in/feedback";
 
-    function createWidget() {
-        const overlay = document.createElement('div');
-        overlay.id = 'feedback-overlay';
-        overlay.style.cssText = `
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,${CONFIG.overlayOpacity});
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            font-family: 'Poppins', sans-serif;
-        `;
+// Create feedback modal
+const feedbackModal = document.createElement("div");
+feedbackModal.style.position = "fixed";
+feedbackModal.style.top = "50%";
+feedbackModal.style.left = "50%";
+feedbackModal.style.transform = "translate(-50%, -50%)";
+feedbackModal.style.background = "white";
+feedbackModal.style.padding = "20px";
+feedbackModal.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
+feedbackModal.style.borderRadius = "10px";
+feedbackModal.style.display = "none";
+feedbackModal.style.zIndex = "1000";
+feedbackModal.innerHTML = `
+    <h3>We value your feedback!</h3>
+    <p>Help us improve by sharing your thoughts.</p>
+    <button id="giveFeedback" style="background: green; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Give Feedback</button>
+    <button id="maybeLater" style="background: blue; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Maybe Later</button>
+    <button id="closeFeedback" style="background: red; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">No Thanks</button>
+`;
 
-        const modal = document.createElement('div');
-        modal.id = 'feedback-modal';
-        modal.style.cssText = `
-            background: #fff;
-            border-radius: 16px;
-            width: 450px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: fadeIn 0.3s ease-in-out;
-        `;
+// Append to body
+document.body.appendChild(feedbackModal);
 
-        const title = document.createElement('h2');
-        title.textContent = 'We value your feedback!';
-        title.style.cssText = 'color: #333; margin-bottom: 20px;';
-        
-        const message = document.createElement('p');
-        message.textContent = 'Help us improve by sharing your thoughts.';
-        message.style.cssText = 'color: #666; margin-bottom: 25px;';
-        
-        const buttonContainer = document.createElement('div');
-        buttonContainer.style.cssText = 'display: flex; justify-content: space-around;';
-        
-        CONFIG.sectors.forEach((sector) => {
-            const button = document.createElement('button');
-            button.textContent = sector.option;
-            button.style.cssText = `
-                background-color: ${sector.color};
-                color: #fff;
-                border: none;
-                padding: 12px 20px;
-                border-radius: 8px;
-                cursor: pointer;
-                font-size: 16px;
-                font-weight: bold;
-                transition: transform 0.2s;
-            `;
-            button.addEventListener('mouseover', () => {
-                button.style.transform = 'scale(1.1)';
-            });
-            button.addEventListener('mouseout', () => {
-                button.style.transform = 'scale(1)';
-            });
-            button.addEventListener('click', () => handleFeedback(sector.option));
-            buttonContainer.appendChild(button);
-        });
+// Show the modal after a delay
+setTimeout(() => {
+    feedbackModal.style.display = "block";
+}, 3000);
 
-        modal.appendChild(title);
-        modal.appendChild(message);
-        modal.appendChild(buttonContainer);
-        overlay.appendChild(modal);
-        document.body.appendChild(overlay);
-        return overlay;
-    }
-
-    function handleFeedback(option) {
-        const version = getDeploymentVersion();
-        if (option === 'Give Feedback') {
-            window.location.href = `${CONFIG.dashboardUrl}?version=${version}`;
-        } else {
-            document.getElementById('feedback-overlay').style.display = 'none';
-        }
-    }
-
-    function showWidget() {
-        document.getElementById('feedback-overlay').style.display = 'flex';
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const overlay = createWidget();
-        setTimeout(showWidget, 3000); // Show after 3 seconds
-    });
-})();
+// Handle feedback actions
+document.getElementById("giveFeedback").addEventListener("click", () => {
+    window.location.href = `${backendUrl}?version=${deploymentVersion}`;
+});
+document.getElementById("maybeLater").addEventListener("click", () => {
+    feedbackModal.style.display = "none";
+});
+document.getElementById("closeFeedback").addEventListener("click", () => {
+    feedbackModal.style.display = "none";
+});
