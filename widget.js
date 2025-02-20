@@ -2,7 +2,7 @@
 const deploymentVersion = document.querySelector('meta[name="deployment-version"]')?.content || "unknown";
 
 // Backend API URL
-const backendUrl = "https://eba9-2409-4081-d94-e3d6-78f9-9d4e-5335-4b06.ngrok-free.app";
+const backendUrl = "https://7d1b-2409-4081-d94-e3d6-5824-47d5-80d4-3d07.ngrok-free.app";
 
 // Create and inject required styles
 const styleSheet = document.createElement("style");
